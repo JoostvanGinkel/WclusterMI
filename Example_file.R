@@ -1,10 +1,10 @@
-setwd("C:/Users/ginkeljrvan/OneDrive - Universiteit Leiden/#COPY_P_DRIVE_9-DEC-2024/ginkeljrvan/VanGinkelLovik3")
+setwd("C:/directory")
 
 #Packages
 library(MGMM)
 library(MASS)
 library(cluster)
-source("C:/Users/ginkeljrvan/OneDrive - Universiteit Leiden/#COPY_P_DRIVE_9-DEC-2024/ginkeljrvan/VanGinkelLovik3/WclusterMI.r")
+source("WclusterMI.r")
 
 J=4                          # number of variables
 N=2000                       # sample size
@@ -51,20 +51,9 @@ for(i in 1:numberofclusters){
   
 #Gap statistic for full data
 numberofstarts2 = numberofstarts
-#warnmessage = TRUE
-#comwarns = 0
-#while (warnmessage){
-#  warnmessage = FALSE
-#  tryCatch(
-#    {
-      gap_stat = (clusGap(datacom, FUNcluster = kmeans, nstart=numberofstarts2, K.max = numberofclusters, iter.max=maxiterations, B=50, d.power = 2, verbose=FALSE))$Tab[,3]
-#    }, warning = function(w) {
-#      numberofstarts2 <<- numberofstarts2*2
-#      warnmessage <<- TRUE
-#      comwarns <<- comwarns + 1
-#    }
-#  )
-#}
+
+gap_stat = (clusGap(datacom, FUNcluster = kmeans, nstart=numberofstarts2, K.max = numberofclusters, iter.max=maxiterations, B=50, d.power = 2, verbose=FALSE))$Tab[,3]
+
   
 #K-means clustering with optimal K      
 bestK = which(gap_stat == max(gap_stat))
@@ -170,4 +159,3 @@ bestK2 = gap_solution2$bestK
 
 #Cluster analysis for imputed datasets with optimal K using Wbar
 solution2 = Wstar(data=dataimp,numberofclusters=bestK2,numberofstarts=numberofstarts,N=N,J=J,NumberOfImp=NumberOfImp)
-
